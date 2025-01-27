@@ -1,5 +1,8 @@
 package zab_client;
 
+import io.grpc.stub.StreamObserver;
+import zab_peer.BalanceRequest;
+
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
@@ -225,6 +228,8 @@ public final class ZabClientServiceGrpc {
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return ZabClientServiceGrpc.bindService(this);
     }
+
+    public abstract void readAccount(BalanceRequest request, StreamObserver<ReadAccountResponse> done);
   }
 
   /**

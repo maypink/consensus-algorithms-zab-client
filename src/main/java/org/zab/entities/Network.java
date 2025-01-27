@@ -2,14 +2,15 @@ package org.zab.entities;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class Network {
 
-    private List<Node> nodes;
+    private List<Node> nodes = new ArrayList<>();
 
-    private List<String> addresses;
+    private List<String> addresses = new ArrayList<>();
 
     public List<Node> getNodes() {
         return nodes;

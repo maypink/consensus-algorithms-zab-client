@@ -26,8 +26,11 @@ public class NetworkService {
         HashMap services = (HashMap) yamlMap.get("services");
         for (Object m: services.values()) {
             LinkedHashMap<String, String> peer = (LinkedHashMap) m;
+            if (peer.get("container_name").contains("client")){
+                continue;
+            }
             Long peerId = Long.valueOf(peer.get("command").split(" ")[1]);
-            String peerPort = peer.get("ports").substring(0, 5);
+            String peerPort = String.valueOf(peer.get("ports")).substring(1, 6);
             Node newNode = new Node();
             newNode.setId(peerId);
             network.addNode(newNode, peerPort);

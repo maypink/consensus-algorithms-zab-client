@@ -2,35 +2,29 @@ package org.zab;
 
 import javax.annotation.PostConstruct;
 
-import com.google.protobuf.Empty;
-import com.google.protobuf.RpcCallback;
-import com.google.protobuf.RpcController;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.Yaml;
+import org.zab.callback.CustomCallback;
+import org.zab.callback.EmptyCallback;
+import org.zab.controllers.CustomRpcController;
 import org.zab.entities.Network;
-import org.zab.entities.Node;
 import org.zab.services.NetworkService;
 import org.zab.services.ZabClientService;
+import org.zab.streams.CustomStreamObserver;
 import zab.BankTransaction;
-import zab_client.ReadAccountRequest;
-import zab_client.ReadAccountResponse;
 import zab_client.WriteTransactionRequest;
 import zab_peer.BalanceRequest;
-import zab_peer.BalanceResponse;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Component
+@SpringBootApplication
 public class Main {
     @Autowired
     private NetworkService networkService;
@@ -43,14 +37,20 @@ public class Main {
     }
 
     @PostConstruct
-    public void init() throws FileNotFoundException {
-        Network network = networkService.parse_configuration("docker-compose.yml");
-
+    public void init() throws IOException, InterruptedException {
         // Initialize peers and connect to each
-        zabClientService.initializePeers(network.getAddresses());
+        zabClientService.initializePeers();
+
+        // Start gRPC server
+        Server server = ServerBuilder.forPort(6501)  // Specify the gRPC port
+                .addService(new ZabClientService())  // Add gRPC service implementations
+                .build();
+
+        server.start();
+        System.out.println("gRPC server started on port 6501");
 
         // Write some bank transactions using client
-        int transactionsNum = 10;
+        int transactionsNum = 5;
         int currentTransaction = 0;
         Map<Integer, Integer> expectedBalalnces = new HashMap<>();
         while (currentTransaction < transactionsNum) {
@@ -60,7 +60,7 @@ public class Main {
                     .setTransaction(BankTransaction.newBuilder()
                             .setAccountId(accountId).setAmount(amount))
                     .build();
-            zabClientService.writeTransaction((RpcController) new Object(), writeTransactionRequest, (RpcCallback<Empty>) new Object());
+            zabClientService.writeTransaction(writeTransactionRequest, new CustomStreamObserver());
 
             // Update expected balances with new amount
             if (expectedBalalnces.containsKey(accountId)){
@@ -72,16 +72,19 @@ public class Main {
             currentTransaction += 1;
         }
 
+        CustomCallback customCallback = new CustomCallback();
         // Check if actual balances are equal to expected ones
         for (Integer accountId: expectedBalalnces.keySet()){
-            Map<Integer, Integer> accountBalances = zabClientService.readAccount((RpcController) new Object(), BalanceRequest.newBuilder().setId(accountId).build(), (RpcCallback<BalanceResponse>) new Object());
-            for (Integer peerId: accountBalances.keySet()){
-                if (accountBalances.get(peerId).intValue() == expectedBalalnces.get(accountId)){
-                    System.out.println("Node: " + peerId + ". Balances for accountId " + accountId + " are equal and =" + expectedBalalnces.get(accountId));
-                } else {
-                    System.out.println("Node: " + peerId + ". Balances for accountId " + accountId + " are NOT equal! Expected balance =" + expectedBalalnces.get(accountId) + "and the actual one =" + accountBalances.get(peerId).intValue());
-                }
-            }
+            zabClientService.readAccount(BalanceRequest.newBuilder().setId(accountId).build(), new CustomStreamObserver());
+//            for (Integer peerId: accountBalances.keySet()){
+//                if (accountBalances.get(peerId).intValue() == expectedBalalnces.get(accountId)){
+//                    System.out.println("Node: " + peerId + ". Balances for accountId " + accountId + " are equal and =" + expectedBalalnces.get(accountId));
+//                } else {
+//                    System.out.println("Node: " + peerId + ". Balances for accountId " + accountId + " are NOT equal! Expected balance =" + expectedBalalnces.get(accountId) + "and the actual one =" + accountBalances.get(peerId).intValue());
+//                }
+//            }
         }
+
+        server.awaitTermination();
     }
 }

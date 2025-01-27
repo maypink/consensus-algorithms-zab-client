@@ -3,97 +3,31 @@ services:
   peer1:
     image: peer_app
     container_name: peer1
-    command: --id 1 --port 10001 --peers 2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
+    command: --id 1 --port 20001 --peers
     ports:
-      - "10001:10001"
-  peer2:
-    image: peer_app
-    container_name: peer2
-    command: --id 2 --port 10002 --peers 1:peer1:10001,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10002:10002"
-  peer3:
-    image: peer_app
-    container_name: peer3
-    command: --id 3 --port 10003 --peers 1:peer1:10001,2:peer2:10002,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10003:10003"
-  peer4:
-    image: peer_app
-    container_name: peer4
-    command: --id 4 --port 10004 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10004:10004"
-  peer5:
-    image: peer_app
-    container_name: peer5
-    command: --id 5 --port 10005 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10005:10005"
-  peer6:
-    image: peer_app
-    container_name: peer6
-    command: --id 6 --port 10006 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10006:10006"
-  peer7:
-    image: peer_app
-    container_name: peer7
-    command: --id 7 --port 10007 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10007:10007"
-  peer8:
-    image: peer_app
-    container_name: peer8
-    command: --id 8 --port 10008 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10008:10008"
-  peer9:
-    image: peer_app
-    container_name: peer9
-    command: --id 9 --port 10009 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10009:10009"
-  peer10:
-    image: peer_app
-    container_name: peer10
-    command: --id 10 --port 10010 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10010:10010"
-  peer11:
-    image: peer_app
-    container_name: peer11
-    command: --id 11 --port 10011 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,12:peer12:10012,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10011:10011"
-  peer12:
-    image: peer_app
-    container_name: peer12
-    command: --id 12 --port 10012 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,13:peer13:10013,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10012:10012"
-  peer13:
-    image: peer_app
-    container_name: peer13
-    command: --id 13 --port 10013 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,14:peer14:10014,15:peer15:10015
-    ports:
-      - "10013:10013"
-  peer14:
-    image: peer_app
-    container_name: peer14
-    command: --id 14 --port 10014 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,15:peer15:10015
-    ports:
-      - "10014:10014"
-  peer15:
-    image: peer_app
-    container_name: peer15
-    command: --id 15 --port 10015 --peers 1:peer1:10001,2:peer2:10002,3:peer3:10003,4:peer4:10004,5:peer5:10005,6:peer6:10006,7:peer7:10007,8:peer8:10008,9:peer9:10009,10:peer10:10010,11:peer11:10011,12:peer12:10012,13:peer13:10013,14:peer14:10014
-    ports:
-      - "10015:10015"
+      - "20001:20001"
+#  peer1:
+#    image: peer_app
+#    container_name: peer1
+#    command: --id 1 --port 10001 --peers 2:peer2:10002,3:peer3:10003
+#    ports:
+#      - "10001:10001"
+#  peer2:
+#    image: peer_app
+#    container_name: peer2
+#    command: --id 2 --port 10002 --peers 1:peer1:10001,3:peer3:10003
+#    ports:
+#      - "10002:10002"
+#  peer3:
+#    image: peer_app
+#    container_name: peer3
+#    command: --id 3 --port 10003 --peers 1:peer1:10001,2:peer2:10002
+#    ports:
+#      - "10003:10003"
   client_app:
     image: client_app
     container_name: client_app
-    command: --peers peer1:10001,peer2:10002,peer3:10003,peer4:10004,peer5:10005,peer6:10006,peer7:10007,peer8:10008,peer9:10009,peer10:10010,peer11:10011,peer12:10012,peer13:10013,peer14:10014,peer15:10015
+    command: --peers peer1:10001,peer2:10002,peer3:10003
     depends_on:
       - peer1
       - peer2
